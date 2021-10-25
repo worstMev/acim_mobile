@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const SERVER_BASE_URL = 'http://localhost:3500/ajax/acim';
-//const SERVER_BASE_URL = 'http://192.168.1.23:3500/ajax/acim';
+const SERVER_BASE_URL_LOCAL = 'http://localhost:3500/ajax/acim';
+const SERVER_BASE_URL = 'http://192.168.1.161:3500/ajax/acim';
 //const SERVER_BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 async function postRequest(url,data) {
     const axiosInstance = axios.create({
-        baseURL : SERVER_BASE_URL,
+        baseURL : SERVER_BASE_URL_LOCAL,
     });
     let response;
     try{

@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import { StyleSheet ,Text , View ,TextInput , Image , Button} from 'react-native';
 import { authenticateUsername ,testAjax ,authenticate ,getUserType } from './loginData.js';
 import { User } from './../../functions/userTypes.js';
+import { store , retrieve } from './../../functions/asyncStorage';
 
 export default class Login extends Component{
     constructor(props){
@@ -72,10 +73,21 @@ export default class Login extends Component{
                     //    type_user   : response.type_user,
                     //});
                     alert('You are logged');
+                    await store('isLogged','true');
+                    await store('num_user', response.num_user);
+                    await store('username',response.username);
+                    await store('type_user', response.type_user);
                     const userType = await getUserType( response.num_user , response.type_user);
                     console.log('userType' , userType);
+                    let session = {
+                        num_user : response.num_user,
+                        username : response.username,
+                        type_user : response.type_user,
+                    };
                     
-                    if ( userType === User.TECH_MAIN.code ) navigation.navigate('MyTask');
+                    if ( userType === User.TECH_MAIN.code ) navigation.navigate('Acim',{
+                        session : session
+                    });
                     //navigation.navigate("MyTask");
                     console.log('is Tech_main' , userType )
                     console.log('response',response);
@@ -86,16 +98,38 @@ export default class Login extends Component{
             }
         }
     }
+
+    componentDidMount = async () =>{
+        console.log('login mounted');
+        let { navigation } = this.props;
+        this.unsubscribeToFocus = navigation.addListener('focus' , async() => {
+            let isLogged = (await retrieve('isLogged') === 'true');
+            let num_user = await retrieve('num_user');
+            let username = await retrieve('username');
+            let type_user = await retrieve('type_user');
+            if (isLogged && num_user && username && type_user) {
+                this.props.navigation.popToTop();
+            }
+        });
+
+    }
+    componentWillUnmount(){
+        console.log('login unmount');
+        this.unsubscribeToFocus();
+    }
+
+
     render(){
         let{
             submittedUsername,
             submittedPassword,
             usernameIsValid,
         } = this.state;
+        
         return(
             <View style={styles.login}>
                 <View style={styles.ImageContainer}>
-                    <Image source={require("./../../img/base_logo_sans_texte.png")} alt="mptdn|acim" id="logo" style={styles.Image}/>
+                    <Image source={require("./../../img/base_logo_4.png")} alt="mndpt|acimi" id="logo" style={styles.Image}/>
                 </View>
                 <View style={styles.InputContainer}>
                     
