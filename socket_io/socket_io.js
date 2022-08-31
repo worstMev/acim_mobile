@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-const SERVER_ADDR = 'http://192.168.1.161:3500';
+const SERVER_ADDR = 'http://192.168.1.164:3500';
 const SERVER_ADDR_LOCAL = 'http://localhost:3500';
 
 const socket = io(SERVER_ADDR_LOCAL, {

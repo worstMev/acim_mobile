@@ -83,7 +83,7 @@ export default class NotifSimple extends Component {
                 <Text style={styles.indic}> {probleme_type} </Text>
                 <Text style={styles.indic}> {lieu} </Text>
                 <Text style={styles.indic}> {statut_libelle} </Text>
-                <Text style={styles.indicSmall}> envoyé par {sender_username} </Text>
+                <Text style={styles.indicSmall}> envoyée par {sender_username} </Text>
             </Pressable>
         );
     }
